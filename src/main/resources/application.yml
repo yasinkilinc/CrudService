@@ -1,0 +1,42 @@
+server:
+  port: ${APP_PORT}
+
+spring:
+  main:
+    banner-mode: "off"
+  profiles:
+    active: ${ENV}
+  datasource:
+    url: "${DB_HOSTNAME}/${DB_NAME}"
+    driverClassName: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    initialization-mode: never # always, never, embeded
+    hikari:
+      minimumIdle: 2
+      maximumPoolSize: 10
+      idleTimeout: 120000
+      connectionTimeout: 20000
+      leakDetectionThreshold: 300000
+    jpa:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      schema_update:
+        unique_constraint_strategy: SKIP # RECREATE_QUIETLY
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql: info
