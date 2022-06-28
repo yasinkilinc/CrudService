@@ -15,6 +15,7 @@ import tr.com.atez.crud.repository.BaseJPARepository;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Slf4j
 public abstract class BaseServiceImpl<ID, E extends AbstractBaseEntity, D extends BaseDTO, M extends EntityMapper, R extends BaseJPARepository> {
 	
@@ -87,7 +88,7 @@ public abstract class BaseServiceImpl<ID, E extends AbstractBaseEntity, D extend
 	}
 
 	public void delete(ID id) {
-		jpaRepository.delete(id);
+		jpaRepository.removeById(id);
 	}
 
 	public Optional<D> partialUpdate(D dto) {
