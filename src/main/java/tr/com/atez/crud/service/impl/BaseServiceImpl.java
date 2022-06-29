@@ -27,31 +27,37 @@ public abstract class BaseServiceImpl<ID, E extends AbstractBaseEntity, D extend
 		this.mapper = mapper;
 	}
 
+	@Transactional(readOnly = true)
 	public List<E> findAll() {
 		return jpaRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
 	public List<E> findAllToEntity(Pageable pageable) {
 		Page page = jpaRepository.findAll(pageable);
 		return (List<E>) page.getContent();
 	}
 
+	@Transactional(readOnly = true)
 	public List<D> findAllToDto(Pageable pageable) {
 		Page page = jpaRepository.findAll(pageable);
 		List<D> content = (List<D>) page.getContent();
 		return mapper.toDto(content);
 	}
 
+	@Transactional(readOnly = true)
 	public boolean existsById(ID id) throws Throwable{
 		E entity = findById(id);
 		return entity.getId() != null;
 	}
 
+	@Transactional(readOnly = true)
 	public E findById(ID id) throws Throwable {
 		return (E) jpaRepository.findById(id)
 				.orElseThrow(() -> new TDSException(ExceptionDef.GLOBAL_ID_NOT_EXISTS, id));
 	}
 
+	@Transactional(readOnly = true)
 	public D findByIdToDto(ID id) throws Throwable {
 		return (D) mapper.toDto(jpaRepository.findById(id)
 				.orElseThrow(() -> new TDSException(ExceptionDef.GLOBAL_ID_NOT_EXISTS, id)));
